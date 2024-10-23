@@ -60,7 +60,7 @@ const ProductList = () => {
                                     <button className="delete-btn" onClick={() => dispatch(deleteItem(item.id))}>
                                         Xóa
                                     </button>
-                                    <Link to={`/edit/${item.id}`}>
+                                    <Link to={`/edit/${item.id}`} state={{ name: item.name, price: item.price }}>
                                         <button className="edit-btn">Chỉnh sửa</button>
                                     </Link>
                                 </div>

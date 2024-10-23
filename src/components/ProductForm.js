@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem, editItem } from '../redux/ProductSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import './ProducFỏm.css';
+import './ProducForm.css';
 
 const ProductForm = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { id } = useParams();
 
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+    const products = useSelector((state) => state.items);
+    const currentProduct = products.find((item) => item.id === id);
+
+    const [name, setName] = useState(currentProduct ? currentProduct.name : '');
+    const [price, setPrice] = useState(currentProduct ? currentProduct.price : '');
+
+    useEffect(() => {
+        if (currentProduct) {
+            setName(currentProduct.name);
+            setPrice(currentProduct.price);
+        }
+    }, [currentProduct]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +35,7 @@ const ProductForm = () => {
 
     return (
         <div className="form-container">
-            <h2>Thêm Hàng Hóa</h2>
+            <h2>{id ? 'Chỉnh sửa Hàng Hóa' : 'Thêm Hàng Hóa'}</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -42,7 +52,7 @@ const ProductForm = () => {
                     required
                 />
                 <button type="submit" className="submit-btn">
-                    Thêm hàng hóa
+                    {id ? 'Lưu thay đổi' : 'Thêm hàng hóa'}
                 </button>
                 <button type="button" className="cancel-btn" onClick={() => navigate('/')}>
                     Quay Lại
