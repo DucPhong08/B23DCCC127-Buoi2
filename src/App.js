@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
-import './App.css'; // Import CSS của bạn
-import Login from './components/Login';
-import Register from './components/Register';
-import Toggle from './components/Toggle';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProductList from './components/ProductList';
+import ProductForm from './components/ProductForm';
+import './App.css';
 
-function App() {
-    const [isLogin, setIsLogin] = useState(true);
-
-    const toggleForm = (form) => {
-        setIsLogin(form === 'login');
-    };
-
+const App = () => {
     return (
-        <div className="container">
-            {isLogin ? <Login /> : <Register />}
-            <Toggle toggleForm={toggleForm} />
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<ProductList />} />
+                <Route path="/add" element={<ProductForm />} />
+                <Route path="/edit/:id" element={<ProductForm />} />
+            </Routes>
+        </Router>
     );
-}
+};
 
 export default App;
